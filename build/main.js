@@ -1,4 +1,5 @@
 "use strict";
+// Import readline module for getting input from console
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -50,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// Import readline module for getting input from console
+Object.defineProperty(exports, "__esModule", { value: true });
 // Find more here: https://nodejs.org/api/readline.html#readline_readline
 var readline = require('readline');
 // define question/output interface

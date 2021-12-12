@@ -1,4 +1,7 @@
 // Import readline module for getting input from console
+
+import { Interface } from "readline";
+
 // Find more here: https://nodejs.org/api/readline.html#readline_readline
 const readline = require('readline');
 
@@ -11,34 +14,34 @@ const rl = readline.createInterface({
 });
 
 // Create questions for STDIN Input from console.
-const menuQ = () => {
+const menuQ = ():Promise<number> => {
   return new Promise((resolve, reject) => {
     // (readable, writeable from readline interface)
-    rl.question('Your choice: ', (answer) => {
+    rl.question('Your choice: ', (answer: number) => {
       resolve(answer);
     });
   });
 };
 
-const milkQ = () => {
+const milkQ = ():Promise<unknown> => {
   return new Promise((resolve, reject) => {
-    rl.question('How many cups of milk to add? ', (answer) => {
+    rl.question('How many cups of milk to add? ', (answer:unknown) => {
       resolve(answer);
     });
   });
 };
 
-const espressoQ = () => {
+const espressoQ = ():Promise<unknown> => {
   return new Promise((resolve, reject) => {
-    rl.question('How many shots of espresso to add? ', (answer) => {
+    rl.question('How many shots of espresso to add? ', (answer:unknown) => {
       resolve(answer);
     });
   });
 };
 
-const peppermintQ = () => {
+const peppermintQ = ():Promise<unknown> => {
   return new Promise((resolve, reject) => {
-    rl.question('How many shots of peppermint to add? ', (answer) => {
+    rl.question('How many shots of peppermint to add? ', (answer:unknown) => {
       resolve(answer);
     });
   });
@@ -46,9 +49,9 @@ const peppermintQ = () => {
 
 // Create parent class Mocha
 class Mocha {
-  milk;
-  shot;
-  chocolateType;
+  milk:number;
+  shot:number;
+  chocolateType:string;
 
   constructor() {
     this.milk = 1;
@@ -66,23 +69,23 @@ class Mocha {
 
 // inherits from Mocha
 class WhiteChocolateMocha extends Mocha {
-  chocolateType = 'White';
+  chocolateType:string = 'White';
 }
 // inherits from Mocha
 class DarkChocolateMocha extends Mocha {
-  chocolateType = 'Dark';
+  chocolateType:string = 'Dark';
 }
 // inherits from Mocha
 class PeppermintMocha extends Mocha {
   // add peppermint property
-  peppermintSyrup;
+  peppermintSyrup:number;
   constructor() {
     // include super to pull in parent constructor
     super();
     this.peppermintSyrup = 1;
   }
   // Overrides Mocha prepare with additional statements
-  prepare() {
+  prepare():void {
     console.log('Your Peppermint Mocha Ingredients:');
     console.log('Dark chocolate');
     console.log('Cups of milk: ', this.milk);
@@ -92,7 +95,7 @@ class PeppermintMocha extends Mocha {
 }
 
 // display menu and return selected menu item
-const showMenu = async () => {
+const showMenu = async ():Promise<unknown> => {
   console.log(
     'Select Mocha from menu: \n',
     '1: Create White Chocolate Mocha \n',
@@ -100,21 +103,22 @@ const showMenu = async () => {
     '3: Create Peppermint Mocha\n',
     '0: Exit\n'
   );
-  const qMenu = await menuQ();
+  const qMenu:number = await menuQ();
   return qMenu;
 };
 
 // User questions
+
 const userOptions = async (
-  mochaObject
+  mochaObject:Mocha | PeppermintMocha
 ) => {
-  const milkPicked = await milkQ();
+  const milkPicked  = await (milkQ() as unknown)as string;
   const milkChoice = parseInt(milkPicked);
-  const espPicked = await espressoQ();
+  const espPicked = await (espressoQ()as unknown)as string;
   const espChoice = parseInt(espPicked);
   // If peppermint mocha
   if (mochaObject instanceof PeppermintMocha) {
-    const pepPicked = await peppermintQ();
+    const pepPicked = await (peppermintQ() as unknown)as string;
     const pepChoice = parseInt(pepPicked);
     mochaObject.peppermintSyrup = pepChoice;
   }
@@ -126,10 +130,10 @@ const userOptions = async (
 
 const main = () => {
   let menuChoice = 0;
-  const buildMocha = async ()=> {
+  const buildMocha = async ():Promise<void>=> {
     do {
       const optionPicked = await showMenu();
-      menuChoice = parseInt(optionPicked);
+      menuChoice = parseInt(optionPicked as string);
       switch (menuChoice) {
         case 0: {
           break;
